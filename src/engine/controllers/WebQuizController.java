@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/quizzes")
 public class WebQuizController {
@@ -27,12 +29,12 @@ public class WebQuizController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> addQuiz(@RequestBody QuizRequest quizRequest) {
+    public ResponseEntity<?> addQuiz(@RequestBody @Valid QuizRequest quizRequest) {
         return webQuizService.addQuiz(quizRequest);
     }
 
     @PostMapping("/{id}/solve")
-    public ResponseEntity<?> answerQuiz(@PathVariable("id") int id, @RequestParam int answer) {
+    public ResponseEntity<?> answerQuiz(@PathVariable("id") int id, @RequestBody int[] answer) {
         return webQuizService.answerQuiz(id, answer);
     }
 

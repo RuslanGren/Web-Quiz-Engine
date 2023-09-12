@@ -40,9 +40,9 @@ public class WebQuizService {
         return ResponseEntity.ok(list.get(id - 1));
     }
 
-    public ResponseEntity<?> answerQuiz(int id, int answer) {
+    public ResponseEntity<?> answerQuiz(int id, int[] answer) {
         QuizResponse response = new QuizResponse(false, "Wrong answer! Please, try again.");
-        if (list.get(id - 1).getAnswer() == answer) {
+        if () {
             response.setSuccess(true);
             response.setFeedback("Congratulations, you're right!");
         }

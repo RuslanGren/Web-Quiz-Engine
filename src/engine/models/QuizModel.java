@@ -10,12 +10,12 @@ public class QuizModel {
     private String text;
     private List<String> options;
     @JsonIgnore
-    private int answer;
+    private int[] answer;
 
     public QuizModel() {
     }
 
-    public QuizModel(int id, String title, String text, List<String> options, int answer) {
+    public QuizModel(int id, String title, String text, List<String> options, int[] answer) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -55,11 +55,11 @@ public class QuizModel {
         this.options = options;
     }
 
-    public int getAnswer() {
+    public int[] getAnswer() {
         return answer;
     }
 
-    public void setAnswer(int answer) {
+    public void setAnswer(int[] answer) {
         this.answer = answer;
     }
 }
