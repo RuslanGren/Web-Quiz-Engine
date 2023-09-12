@@ -1,32 +1,34 @@
 package engine.models;
 
-import javax.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
-public class QuizRequest {
-    @NotBlank
+public class QuizModel {
+    private int id;
     private String title;
-    @NotBlank
     private String text;
     private List<String> options;
+    @JsonIgnore
     private int answer;
 
-    public QuizRequest() {
+    public QuizModel() {
     }
 
-    public QuizRequest(String title, String text, List<String> options) {
+    public QuizModel(int id, String title, String text, List<String> options, int answer) {
+        this.id = id;
         this.title = title;
         this.text = text;
         this.options = options;
         this.answer = answer;
     }
 
-    public int getAnswer() {
-        return answer;
+    public int getId() {
+        return id;
     }
 
-    public void setAnswer(int answer) {
-        this.answer = answer;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -51,5 +53,13 @@ public class QuizRequest {
 
     public void setOptions(List<String> options) {
         this.options = options;
+    }
+
+    public int getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(int answer) {
+        this.answer = answer;
     }
 }
