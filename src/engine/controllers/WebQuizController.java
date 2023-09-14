@@ -1,5 +1,6 @@
 package engine.controllers;
 
+import engine.models.AnswerRequest;
 import engine.models.QuizRequest;
 import engine.services.WebQuizService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ public class WebQuizController {
     }
 
     @PostMapping("/{id}/solve")
-    public ResponseEntity<?> answerQuiz(@PathVariable("id") int id, @RequestBody int[] answer) {
-        return webQuizService.answerQuiz(id, answer);
+    public ResponseEntity<?> answerQuiz(@PathVariable("id") int id, @RequestBody AnswerRequest answerRequest) {
+        return webQuizService.answerQuiz(id, answerRequest);
     }
 
 }

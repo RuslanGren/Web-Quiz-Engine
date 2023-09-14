@@ -2,6 +2,7 @@ package engine.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuizModel {
@@ -10,12 +11,12 @@ public class QuizModel {
     private String text;
     private List<String> options;
     @JsonIgnore
-    private int[] answer;
+    private ArrayList<Integer> answer;
 
     public QuizModel() {
     }
 
-    public QuizModel(int id, String title, String text, List<String> options, int[] answer) {
+    public QuizModel(int id, String title, String text, List<String> options, ArrayList<Integer> answer) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -55,11 +56,11 @@ public class QuizModel {
         this.options = options;
     }
 
-    public int[] getAnswer() {
+    public ArrayList<Integer> getAnswer() {
         return answer;
     }
 
-    public void setAnswer(int[] answer) {
+    public void setAnswer(ArrayList<Integer> answer) {
         this.answer = answer;
     }
 }

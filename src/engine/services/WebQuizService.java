@@ -1,5 +1,6 @@
 package engine.services;
 
+import engine.models.AnswerRequest;
 import engine.models.QuizModel;
 import engine.models.QuizRequest;
 import engine.models.QuizResponse;
@@ -40,11 +41,18 @@ public class WebQuizService {
         return ResponseEntity.ok(list.get(id - 1));
     }
 
-    public ResponseEntity<?> answerQuiz(int id, int[] answer) {
-        QuizResponse response = new QuizResponse(false, "Wrong answer! Please, try again.");
-        if () {
+    public ResponseEntity<?> answerQuiz(int id, AnswerRequest answerRequest) {
+        QuizResponse response = new QuizResponse();
+        ArrayList<Integer> answer = list.get(id - 1).getAnswer();
+        if (answer == null) {
+            answer = new ArrayList<>();
+        }
+        if (!answer.equals(answerRequest.getAnswer()) ) {
+            response.setSuccess(false);
+            response.setFeedback("Wrong answer! Please, try again.");
+        } else {
             response.setSuccess(true);
-            response.setFeedback("Congratulations, you're right!");
+            response.setFeedback("yes cool");
         }
         return ResponseEntity.ok(response);
     }
