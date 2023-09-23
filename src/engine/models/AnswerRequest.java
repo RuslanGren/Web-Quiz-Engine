@@ -1,22 +1,23 @@
 package engine.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AnswerRequest {
-    private ArrayList<Integer> answer;
+    private List<Integer> answer = new ArrayList<>();
 
     public AnswerRequest() {
     }
 
-    public AnswerRequest(ArrayList<Integer> answer) {
+    public AnswerRequest(List<Integer> answer) {
         this.answer = answer;
     }
 
-    public ArrayList<Integer> getAnswer() {
+    public List<Integer> getAnswer() {
         return answer;
     }
 
-    public void setAnswer(ArrayList<Integer> answer) {
+    public void setAnswer(List<Integer> answer) {
         this.answer = answer;
     }
 }

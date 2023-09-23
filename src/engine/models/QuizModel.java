@@ -2,21 +2,29 @@ package engine.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class QuizModel {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String title;
     private String text;
-    private List<String> options;
+
+    @ElementCollection
+    private List<String> options = new ArrayList<>();
+
     @JsonIgnore
-    private ArrayList<Integer> answer;
+    @ElementCollection
+    private List<Integer> answer = new ArrayList<>();
 
     public QuizModel() {
     }
 
-    public QuizModel(int id, String title, String text, List<String> options, ArrayList<Integer> answer) {
+    public QuizModel(Long id, String title, String text, List<String> options, List<Integer> answer) {
         this.id = id;
         this.title = title;
         this.text = text;
@@ -24,11 +32,11 @@ public class QuizModel {
         this.answer = answer;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,11 +64,11 @@ public class QuizModel {
         this.options = options;
     }
 
-    public ArrayList<Integer> getAnswer() {
+    public List<Integer> getAnswer() {
         return answer;
     }
 
-    public void setAnswer(ArrayList<Integer> answer) {
+    public void setAnswer(List<Integer> answer) {
         this.answer = answer;
     }
 }

@@ -25,7 +25,7 @@ public class WebQuizController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getQuiz(@PathVariable("id") int id) {
+    public ResponseEntity<?> getQuiz(@PathVariable("id") Long id) {
         return webQuizService.getQuiz(id);
     }
 
@@ -35,7 +35,7 @@ public class WebQuizController {
     }
 
     @PostMapping("/{id}/solve")
-    public ResponseEntity<?> answerQuiz(@PathVariable("id") int id, @RequestBody AnswerRequest answerRequest) {
+    public ResponseEntity<?> answerQuiz(@PathVariable("id") Long id, @RequestBody AnswerRequest answerRequest) {
         return webQuizService.answerQuiz(id, answerRequest);
     }
 

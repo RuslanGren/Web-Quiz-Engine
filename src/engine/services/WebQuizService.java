@@ -1,53 +1,53 @@
 package engine.services;
 
+import engine.exception.QuizModelNotFound;
 import engine.models.AnswerRequest;
 import engine.models.QuizModel;
 import engine.models.QuizRequest;
 import engine.models.QuizResponse;
-import org.springframework.http.HttpStatus;
+import engine.repository.QuizModelRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class WebQuizService {
-    private final List<QuizModel> list = new ArrayList<>();
-    private int id = 0;
+    private final QuizModelRepository quizModelRepository;
+
+    @Autowired
+    public WebQuizService(QuizModelRepository quizModelRepository) {
+        this.quizModelRepository = quizModelRepository;
+    }
 
     public ResponseEntity<?> addQuiz(QuizRequest request) {
-        id++;
         QuizModel quiz = new QuizModel();
-        quiz.setId(id);
         quiz.setTitle(request.getTitle());
         quiz.setText(request.getText());
         quiz.setOptions(request.getOptions());
         quiz.setAnswer(request.getAnswer());
-        list.add(quiz);
 
+        quizModelRepository.save(quiz);
         return ResponseEntity.ok(quiz);
     }
 
     public ResponseEntity<?> getListOfQuizzes() {
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(quizModelRepository.findAll());
     }
 
-    public ResponseEntity<?> getQuiz(int id) {
-        if (list.size() < id) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.ok(list.get(id - 1));
+    public ResponseEntity<?> getQuiz(Long id) {
+        return ResponseEntity.ok(
+                quizModelRepository.findById(id).orElseThrow(QuizModelNotFound::new)
+        );
     }
 
-    public ResponseEntity<?> answerQuiz(int id, AnswerRequest answerRequest) {
+    public ResponseEntity<?> answerQuiz(Long id, AnswerRequest answerRequest) {
         QuizResponse response = new QuizResponse();
-        ArrayList<Integer> answer = list.get(id - 1).getAnswer();
-        if (answer == null) {
-            answer = new ArrayList<>();
-        }
-        if (!answer.equals(answerRequest.getAnswer()) ) {
+        QuizModel quizModel = quizModelRepository.findById(id).orElseThrow(QuizModelNotFound::new);
+        if (!listsAreEqual(quizModel.getAnswer(), answerRequest.getAnswer())) {
             response.setSuccess(false);
             response.setFeedback("Wrong answer! Please, try again.");
         } else {
@@ -56,5 +56,26 @@ public class WebQuizService {
         }
         return ResponseEntity.ok(response);
     }
+
+    private boolean listsAreEqual(List<?> list1, List<?> list2) {
+        if (list1 == null && list2 == null) {
+            return true;
+        }
+        if (list1 == null || list2 == null) {
+            return false;
+        }
+        if (list1.size() != list2.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < list1.size(); i++) {
+            if (!Objects.equals(list1.get(i), list2.get(i))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
 }
