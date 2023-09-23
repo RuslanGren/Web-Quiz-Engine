@@ -32,8 +32,9 @@ public class WebQuizController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> addQuiz(@RequestBody @Valid QuizRequest quizRequest) {
-        return webQuizService.addQuiz(quizRequest);
+    public ResponseEntity<?> addQuiz(@RequestBody @Valid QuizRequest quizRequest,
+                                     @AuthenticationPrincipal UserDetails userDetails) {
+        return webQuizService.addQuiz(quizRequest, userDetails);
     }
 
     @PostMapping("/{id}/solve")
@@ -42,8 +43,8 @@ public class WebQuizController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteQuiz(@PathVariable("id") Long id) {
-        return webQuizService.deleteQuiz(id);
+    public ResponseEntity<?> deleteQuiz(@PathVariable("id") Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        return webQuizService.deleteQuiz(id, userDetails);
     }
 
 }

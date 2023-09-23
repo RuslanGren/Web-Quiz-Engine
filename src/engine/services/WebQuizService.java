@@ -5,11 +5,15 @@ import engine.models.quiz.AnswerRequest;
 import engine.models.quiz.QuizModel;
 import engine.models.quiz.QuizRequest;
 import engine.models.quiz.QuizResponse;
+import engine.models.user.User;
 import engine.repository.QuizModelRepository;
+import engine.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,18 +21,22 @@ import java.util.Objects;
 @Service
 public class WebQuizService {
     private final QuizModelRepository quizModelRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public WebQuizService(QuizModelRepository quizModelRepository) {
+    public WebQuizService(QuizModelRepository quizModelRepository, UserRepository userRepository) {
         this.quizModelRepository = quizModelRepository;
+        this.userRepository = userRepository;
     }
 
-    public ResponseEntity<?> addQuiz(QuizRequest request) {
+    public ResponseEntity<?> addQuiz(QuizRequest request, UserDetails userDetails) {
+        User user = userRepository.findByEmailIgnoreCase(userDetails.getUsername()).orElseThrow();
         QuizModel quiz = new QuizModel();
         quiz.setTitle(request.getTitle());
         quiz.setText(request.getText());
         quiz.setOptions(request.getOptions());
         quiz.setAnswer(request.getAnswer());
+        quiz.setUserId(user.getId());
 
         quizModelRepository.save(quiz);
         return ResponseEntity.ok(quiz);
@@ -55,8 +63,13 @@ public class WebQuizService {
         return ResponseEntity.ok(response);
     }
 
-    public ResponseEntity<?> deleteQuiz(Long id) {
-        quizModelRepository.deleteById(id);
+    public ResponseEntity<?> deleteQuiz(Long id, UserDetails userDetails) {
+        QuizModel quizModel = quizModelRepository.findById(id).orElseThrow(QuizModelNotFound::new);
+        User user = userRepository.findById(quizModel.getId()).orElseThrow();
+        if (!user.getEmail().equals(userDetails.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        quizModelRepository.delete(quizModel);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

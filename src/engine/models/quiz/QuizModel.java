@@ -21,15 +21,19 @@ public class QuizModel {
     @ElementCollection
     private List<Integer> answer = new ArrayList<>();
 
+    @JsonIgnore
+    private Long userId;
+
     public QuizModel() {
     }
 
-    public QuizModel(Long id, String title, String text, List<String> options, List<Integer> answer) {
+    public QuizModel(Long id, String title, String text, List<String> options, List<Integer> answer, Long userId) {
         this.id = id;
         this.title = title;
         this.text = text;
         this.options = options;
         this.answer = answer;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -70,5 +74,13 @@ public class QuizModel {
 
     public void setAnswer(List<Integer> answer) {
         this.answer = answer;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

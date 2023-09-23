@@ -12,6 +12,9 @@ public class UserDto {
     @Size(min = 5)
     private String password;
 
+    public UserDto() {
+    }
+
     public UserDto(String email, String password) {
         this.email = email;
         this.password = password;

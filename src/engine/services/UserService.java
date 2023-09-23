@@ -5,6 +5,7 @@ import engine.models.user.User;
 import engine.models.user.UserDto;
 import engine.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,8 @@ public class UserService {
 
         User user = new User();
         user.setEmail(userDto.getEmail());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
-        return ResponseEntity.ok(user);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
