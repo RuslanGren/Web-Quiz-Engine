@@ -1,6 +1,9 @@
-package engine.models;
+package engine.models.quiz;
 
 public class QuizResponse {
+    public final static QuizResponse CORRECT_ANSWER = new QuizResponse(true, "Congratulations, you're right!");
+    public final static QuizResponse WRONG_ANSWER = new QuizResponse(false, "Wrong answer! Please, try again.");
+
     private boolean success;
     private String feedback;
 

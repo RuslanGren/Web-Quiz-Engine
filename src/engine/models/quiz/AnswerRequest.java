@@ -1,4 +1,4 @@
-package engine.models;
+package engine.models.quiz;
 
 import java.util.ArrayList;
 import java.util.List;

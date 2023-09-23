@@ -1,4 +1,4 @@
-package engine.models;
+package engine.models.quiz;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

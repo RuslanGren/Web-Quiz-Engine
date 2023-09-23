@@ -1,4 +1,4 @@
-package engine.models;
+package engine.models.quiz;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

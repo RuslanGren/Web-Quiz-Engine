@@ -1,16 +1,16 @@
 package engine.services;
 
 import engine.exception.QuizModelNotFound;
-import engine.models.AnswerRequest;
-import engine.models.QuizModel;
-import engine.models.QuizRequest;
-import engine.models.QuizResponse;
+import engine.models.quiz.AnswerRequest;
+import engine.models.quiz.QuizModel;
+import engine.models.quiz.QuizRequest;
+import engine.models.quiz.QuizResponse;
 import engine.repository.QuizModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,16 +45,19 @@ public class WebQuizService {
     }
 
     public ResponseEntity<?> answerQuiz(Long id, AnswerRequest answerRequest) {
-        QuizResponse response = new QuizResponse();
         QuizModel quizModel = quizModelRepository.findById(id).orElseThrow(QuizModelNotFound::new);
+        QuizResponse response;
         if (!listsAreEqual(quizModel.getAnswer(), answerRequest.getAnswer())) {
-            response.setSuccess(false);
-            response.setFeedback("Wrong answer! Please, try again.");
+            response = QuizResponse.WRONG_ANSWER;
         } else {
-            response.setSuccess(true);
-            response.setFeedback("yes cool");
+            response = QuizResponse.CORRECT_ANSWER;
         }
         return ResponseEntity.ok(response);
+    }
+
+    public ResponseEntity<?> deleteQuiz(Long id) {
+        quizModelRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     private boolean listsAreEqual(List<?> list1, List<?> list2) {
