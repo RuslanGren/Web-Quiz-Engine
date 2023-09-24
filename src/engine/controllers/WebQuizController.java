@@ -21,11 +21,6 @@ public class WebQuizController {
         this.webQuizService = webQuizService;
     }
 
-    @GetMapping("")
-    public ResponseEntity<?> getQuizzes() {
-        return webQuizService.getListOfQuizzes();
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getQuiz(@PathVariable("id") Long id) {
         return webQuizService.getQuiz(id);
@@ -38,13 +33,28 @@ public class WebQuizController {
     }
 
     @PostMapping("/{id}/solve")
-    public ResponseEntity<?> answerQuiz(@PathVariable("id") Long id, @RequestBody AnswerRequest answerRequest) {
-        return webQuizService.answerQuiz(id, answerRequest);
+    public ResponseEntity<?> answerQuiz(
+            @PathVariable("id") Long id,
+            @RequestBody AnswerRequest answerRequest,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return webQuizService.answerQuiz(id, answerRequest, userDetails);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteQuiz(@PathVariable("id") Long id, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<?> deleteQuiz(@PathVariable("id") Long id,
+                                        @AuthenticationPrincipal UserDetails userDetails) {
         return webQuizService.deleteQuiz(id, userDetails);
     }
 
+    @GetMapping(value = "", params = "page")
+    public ResponseEntity<?> getQuizzesPage(@RequestParam(value = "page", defaultValue = "0") int page) {
+        return webQuizService.getQuizzesPage(page);
+    }
+
+    @GetMapping(value = "/completed", params = "page")
+    public ResponseEntity<?> getPageOfCompletedQuizzes(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return webQuizService.getPageOfCompletedQuizzes(page, userDetails);
+    }
 }
