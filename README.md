@@ -20,7 +20,7 @@ If you want to clone the repo:
 
 - run the command line in the directory you want to store the app and type the following command: 
   
-``git clone https://github.com/Hubertoom/Web-Quiz-Engine-Java.git`` 
+``git clone https://github.com/RuslanGren/Web-Quiz-Engine.git`` 
 
 - or start with *Project from Version Control* in your IDE by providing the URL of this repository.
 
