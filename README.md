@@ -9,7 +9,7 @@ develop a multi-users web service for creating and solving quizzes.
 
 ## Learning outcomes
 In this project, we develop a multi-user web service for creating and solving quizzes <br/>
-using REST API, an embedded H2 database, security, and other technologies. <br/>
+using REST API, an embedded PostgreSQL database, security, and other technologies. <br/>
 Here, we concentrated on the server side ("engine") without a user interface at all. <br/> 
 A client can be a browser, the curl tool, a REST client like postman or something else. <br/>
 
